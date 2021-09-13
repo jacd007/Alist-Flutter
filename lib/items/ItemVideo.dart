@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:alistvideos/model/VideoModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
@@ -73,10 +76,15 @@ Widget ItemVideo({
                         Container(
                           width: 100,
                           height: 100,
-                          child: Image.asset(
-                            'assets/images/logo.png',
-                            fit: BoxFit.fill,
-                          ),
+                          child: list[index].image != null
+                              ? Image.memory(
+                                  imageFromBase64String(list[index].image),
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/images/logo.png',
+                                  fit: BoxFit.fill,
+                                ),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(100),
@@ -102,6 +110,7 @@ Widget ItemVideo({
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400,
+                                fontSize: 14,
                               ),
                               textAlign: TextAlign.start,
                             ),
@@ -110,6 +119,7 @@ Widget ItemVideo({
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400,
+                                fontSize: 12,
                               ),
                               textAlign: TextAlign.start,
                             ),
@@ -118,6 +128,7 @@ Widget ItemVideo({
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400,
+                                fontSize: 12,
                               ),
                               textAlign: TextAlign.start,
                             )
@@ -225,3 +236,7 @@ Widget ItemVideo({
               onTap: onItemTap,
             ),
           );
+
+Uint8List imageFromBase64String(String? base64String) {
+  return base64Decode(base64String!);
+}

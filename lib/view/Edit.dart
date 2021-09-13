@@ -60,7 +60,7 @@ class _EditPageState extends State<EditPage> {
 
   _saveImageB64(final fileData) {
     List<int> imageBytes = fileData.readAsBytesSync();
-    print(imageBytes);
+    //print(imageBytes);
     String base64Image = base64Encode(imageBytes);
     return base64Image;
   }
@@ -87,10 +87,15 @@ class _EditPageState extends State<EditPage> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                     ),
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      fit: BoxFit.fill,
-                    )),
+                    child: _imagen != null
+                        ? Image.file(
+                            _imagen!,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            'assets/images/logo.png',
+                            fit: BoxFit.fill,
+                          )),
                 UtilsWidget.buttonGeneric(
                   text: 'Cambiar imagen',
                   padding: EdgeInsets.all(8.0),
@@ -155,6 +160,16 @@ class _EditPageState extends State<EditPage> {
                       );
                       print(videoModel);
                       DB.insert(videoModel);
+
+                      setState(() {
+                        _ctr_name.text = '';
+                        _ctr_cap.text = '';
+                        _ctr_date.text = '';
+                        _ctr_day.text = '';
+                        _ctr_image.text = '';
+                        _imagen = null;
+                        Utils.toast('Guardado con exito...');
+                      });
                     }),
               ],
             ),
